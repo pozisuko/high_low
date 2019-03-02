@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import random
-import sys
 
 
 def create_deck():
@@ -12,28 +11,45 @@ def create_deck():
     return deck
 
 
+def validate(select):
+    if 0 > select or select > 2:
+        return False
+    else:
+        return True
+
+
+def print_result():
+
+    print(player_hand)
+
+    if select == result:
+        print('you win!')
+    else:
+        print('you lose')
+
+
 deck = create_deck()
 dealer_hand = deck.pop()
 player_hand = deck.pop()
 
 
-print('dealer hand >', dealer_hand)
+print('dealer hand: ', dealer_hand)
+select = int(input('your hand is high_0 low_1: '))
 
+if validate(select) == True:
+    result = dealer_hand[1] - player_hand[1]
 
-select = int(input('your hand is high_0 low_1 : '))
+    if result < 0:  # win
+        result = 0
+        print_result()
 
-high_low = dealer_hand[1] - player_hand[1]
+    elif result == 0:  # draw
+        print(player_hand)
+        print('draw')
 
-if high_low < 0:  # player hand is high
-    result = 0
-# elif high_low == 0:  # draw
+    else:  # lose
+        result = 1
+        print_result()
 
-else:  # player hand is low
-    result = 1
-
-print(player_hand)
-
-if select == result:
-    print('you win!')
 else:
-    print('you lose')
+    print('select 0 or 1 only')
