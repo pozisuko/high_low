@@ -1,55 +1,68 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+from enum import auto, Enum, IntEnum
 import random
+import readchar
+import sys
 
 
-def create_deck():
-    suits = ['♡', '♢', '♤', '♧']
-    ranks = range(1, 14)
-    deck = [(i, j) for i in suits for j in ranks]
-    random.shuffle(deck)
-    return deck
+class Deck:
+    deck = []
+
+    def __init__(self):
+        suits = ['♡', '♢', '♤', '♧']
+        ranks = range(2, 15)
+        self.deck = [(i, j) for i in suits for j in ranks]
+        random.shuffle(self.deck)
+
+    def draw(self):
+        return self.deck.pop()
 
 
-def validate(select):
-    if 0 > select or select > 2:
-        return False
-    else:
+def ask():
+    answer = input('say, high or low: ')
+    return answer
+
+
+def validate(answer, selection):
+    if answer in selection:
         return True
+    else:
+        return False
 
 
-def print_result():
+def is_high(player_hand, dealer_hand):
+    if player_hand[1] - dealer_hand[1] > 0:
+        return True
+    else:
+        return False
 
-    print(player_hand)
 
-    if select == result:
+def main():
+    deck = Deck()
+    player_hand = deck.draw()
+    dealer_hand = deck.draw()
+    selection = ['high', 'low']
+
+    print('dealer hand :', dealer_hand)
+
+    answer = ask()
+    is_valid = validate(answer, selection)
+
+    if not is_valid:
+        print('no valid input. plz input high or low.')
+        return
+
+    print('your hand :', player_hand)
+
+    high = is_high(player_hand, dealer_hand)
+
+    if (high and answer == 'high') or (not high and answer == 'low'):
         print('you win!')
     else:
-        print('you lose')
+        print('you lose.')
 
 
-deck = create_deck()
-dealer_hand = deck.pop()
-player_hand = deck.pop()
-
-
-print('dealer hand: ', dealer_hand)
-select = int(input('your hand is high_0 low_1: '))
-
-if validate(select) == True:
-    result = dealer_hand[1] - player_hand[1]
-
-    if result < 0:  # win
-        result = 0
-        print_result()
-
-    elif result == 0:  # draw
-        print(player_hand)
-        print('draw')
-
-    else:  # lose
-        result = 1
-        print_result()
-
-else:
-    print('select 0 or 1 only')
+if __name__ == '__main__':
+    main()
