@@ -76,7 +76,7 @@ def main():
     is_valid = validate(answer, has_answer)
 
     if not is_valid:
-        print('no valid input. plz input high or low.')
+        print('not valid input. plz input high or low.')
         return
 
     selection = select(is_valid, answer)
