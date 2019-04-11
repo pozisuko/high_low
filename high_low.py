@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import random
+import sys
 
 
 class Card:
@@ -28,23 +29,17 @@ class Deck:
 
 
 def ask():
-    answer = input('say, high or low:')
-    return answer
-
-
-def validate(answer, has_answer):
-    if answer in has_answer:
-        return True
+    error_message = 'invalid input. please enter 0 or 1 as a number.'
+    try:
+        answer = int(input('press the 1 or 0 key. high(1) / low(0): '))
+        return answer
+    except (ValueError, TypeError):
+        print(error_message)
+        exit()
     else:
-        return False
-
-
-def select(is_valid, answer):
-    if is_valid:
-        if answer == 'high':
-            return True
-        else:
-            return False
+        if not answer is 0 or 1:
+            print(error_message)
+            exit()
 
 
 def is_high(player_hand, dealer_hand):
@@ -55,36 +50,28 @@ def is_high(player_hand, dealer_hand):
         return False
 
 
-def result(high, selection):
+def result(answer, high):
     if is_high == 0:
         print('you lose.')
-    elif high == selection:
-        print('you win!')
-    else:
+    elif answer ^ high:
         print('you lose.')
+    else:
+        print('you win!')
 
 
 def main():
     deck = Deck()
     player_hand = deck.draw
     dealer_hand = deck.draw
-    has_answer = ['high', 'low']
 
     print('dealer hand:', dealer_hand)
 
     answer = ask()
-    is_valid = validate(answer, has_answer)
-
-    if not is_valid:
-        print('not valid input. plz input high or low.')
-        return
-
-    selection = select(is_valid, answer)
     high = is_high(player_hand, dealer_hand)
 
     print('your hand:', player_hand)
 
-    result(high, selection)
+    result(answer, high)
 
 
 if __name__ == '__main__':
