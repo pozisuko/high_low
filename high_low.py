@@ -35,8 +35,6 @@ class MyError(Exception):
 class InputError(MyError):
     pass
 
- # ??????????????
-
 
 def ask():
 
@@ -79,7 +77,7 @@ def main():
     dealer_hand = deck.draw
 
     print('dealer hand:', dealer_hand)
-    # ask()
+
     answer = ask()
     high = is_high(player_hand, dealer_hand)
 
